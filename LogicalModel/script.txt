@@ -1,0 +1,253 @@
+Table Ciudades {
+  idCiudad integer [primary key]
+  nombre varchar(50) [not null]
+}
+
+Table Estadios {
+  idEstadio integer [primary key]
+  nombre varchar(100) [not null]
+  capacidad integer [not null]
+  idCiudad integer [not null]
+}
+
+Table Paises {
+  idPais integer [primary key]
+  nombre varchar(50) [not null]
+}
+
+Table Personas {
+  idPersona integer [primary key]
+  nombre varchar(50) [not null]
+  segundoNombre varchar(50)
+  apellido varchar(50) [not null]
+  segundoApellido varchar(50) [null]
+  fechaNacimiento date [not null]
+  idPais integer [not null]
+}
+
+Table Jugadores {
+  idJugador integer [primary key]
+  apodo varchar(50)
+  posicionCampo varchar(50) [not null]
+  altura integer [not null]
+  idPersona integer [not null]
+}
+
+Table Usuarios {
+  idUsuario integer [primary key] 
+  correo varchar(100) [not null]
+  contrasena varchar(100) [not null]
+  idPersona integer [not null]
+}
+
+Table Tecnicos {
+  idTecnico integer [primary key]
+  apodo varchar(50) 
+  idPersona integer [not null]
+}
+
+
+Table Records {
+  idRecord integer [primary key]
+  nombre varchar(50) [not null]
+  descripcion varchar(200) 
+  fecha date [not null]
+  idJugador integer [not null]
+}
+
+Table UsuarioVeRecord {
+  idUsuarioVeRecord integer [primary key]
+  idRecord integer [not null]
+  idUsuario integer [not null]
+}
+
+Table SalonDeLaFama {
+  idSalonDeLaFama integer [primary key]
+  nombre varchar(50) [not null]
+}
+
+Table JugadoresEnSalonDeLaFama {
+  idJugadorSalonDeLaFama integer [primary key]
+  fechaInclusion date [not null]
+  idJugador integer [not null]
+  idSalonDeLaFama integer [not null]
+}
+
+Table TecnicosEnSalonDeLaFama {
+  idTecnicoSalonDeLaFama integer [primary key]
+  fechaInclusion date [not null]
+  idTecnico integer [not null]
+  idSalonDeLaFama integer [not null]
+}
+
+Table usuariosVenSalonDeLafama {
+  idUsuarioSalonDeLaFama integer [primary key]
+  idUsuario integer [not null]
+  idSalonDeLaFama integer [not null]
+}
+
+
+//Equipos
+Table Equipos {
+  idEquipo integer [primary key]
+  nombre varchar(50) [not null]
+  fechaFundacion date [not null]
+  idCiudad integer [not null]
+  idEstadio integer [not null]
+}
+
+table JugadoresEquipos{
+  idJugadorEquipo integer [primary key]
+  fechaVinculacion date [not null]
+  fechaDesvinculacion date 
+  idEquipo integer [not null]
+  idJugador integer [not null]
+}
+
+table TecnicosEquipos{
+  idTecnicoEquipo integer [primary key]
+  cargo varchar(50) [not null]
+  fechaVinculacion date [not null]
+  fechaDesvinculacion date
+  idEquipo integer [not null]
+  idTecnico integer [not null]
+}
+
+table UsuariosSiguenEquipos{
+  idUsuarioSigueEquipo integer [primary key]
+  fechaVinculacion date [not null]
+  fechaDesvinculacion date 
+  idEquipo integer [not null]
+  idUsuario integer [not null]
+}
+
+table Partidos{
+  idPartido integer [primary key]
+  fecha date [not null]
+  hora time [not null]
+  idEquipoLocal integer [not null]
+  idEquipoVisitante integer [not null]
+  idTemporada integer [not null]
+  idNoticia integer [not null]
+}
+
+table Calificaciones{
+  idCalificacion integer [primary key]
+  puntuacion integer [not null]
+  comentario varchar(500)
+  fecha date [not null]
+  idUsuario integer [not null]
+  idPartido integer [not null]
+}
+
+table TecnicosDirigenPartidos{
+  idTecnicoDirigePartido integer [primary key]
+  idTecnico integer [not null]
+  idPartido integer [not null]
+}
+
+table JugadoresParticipanPartidos{
+  idJugadorParticipaPartido integer [primary key]
+  touchdown integer 
+  fieldGoal integer
+  tackels integer
+  punting integer
+  recepciones integer
+  puntosExtra integer
+  idJugador integer [not null]
+  idPartido integer [not null]
+}
+
+table EquiposParticipanPartidos{
+  idEquipoParticipaPartido integer [primary key]
+  puntos integer [not null]
+  idEquipo integer [not null]
+  idPartido integer [not null]
+}
+
+table Noticias{
+  idNoticia integer [primary key]
+  titulo varchar(200) [not null]
+  descripcion varchar(1000)
+}
+
+table Temporadas{
+  idTemporada integer [primary key]
+  Temporada integer [not null]
+}
+
+
+table TemporadasEnNFC{
+  idTemporadaNFC integer [primary key]
+  idTemporada integer [not null]
+  idDivision integer [not null]
+}
+
+table TemporadasEnAFC{
+  idTemporadaACF integer [primary key]
+  idTemporada integer [not null]
+  idDivision integer [not null]
+}
+
+table Divisiones{
+  idDivision integer [primary key]
+  nombre varchar(100) [not null]
+}
+
+table puntosPorpartido{ 
+  idPuntosPorPartido integer [primary key]
+  puntos integer
+  idPartido integer
+  idEquipo integer 
+
+}
+
+
+Ref: Estadios.idCiudad > Ciudades.idCiudad
+Ref: Equipos.idCiudad > Ciudades.idCiudad
+Ref: Equipos.idEstadio - Estadios.idEstadio
+Ref: Personas.idPais > Paises.idPais
+Ref: Tecnicos.idPersona > Personas.idPersona
+Ref: Usuarios.idPersona > Personas.idPersona
+Ref: Jugadores.idPersona > Personas.idPersona
+Ref: Records.idJugador > Jugadores.idJugador
+Ref: UsuarioVeRecord.idRecord > Records.idRecord
+Ref: UsuarioVeRecord.idUsuario > Usuarios.idUsuario 
+Ref: SalonDeLaFama.idSalonDeLaFama < JugadoresEnSalonDeLaFama.idSalonDeLaFama
+Ref: SalonDeLaFama.idSalonDeLaFama < TecnicosEnSalonDeLaFama.idSalonDeLaFama
+Ref: SalonDeLaFama.idSalonDeLaFama < usuariosVenSalonDeLafama.idSalonDeLaFama
+Ref: Jugadores.idJugador < JugadoresEnSalonDeLaFama.idJugador
+Ref: Tecnicos.idTecnico < TecnicosEnSalonDeLaFama.idTecnico
+Ref: Usuarios.idUsuario < usuariosVenSalonDeLafama.idUsuario
+Ref: UsuariosSiguenEquipos.idUsuario < Usuarios.idUsuario
+Ref: UsuariosSiguenEquipos.idEquipo < Equipos.idEquipo
+Ref: TecnicosEquipos.idEquipo < Equipos.idEquipo
+Ref: TecnicosEquipos.idTecnico < Tecnicos.idTecnico
+Ref: JugadoresEquipos.idEquipo < Equipos.idEquipo
+Ref: JugadoresEquipos.idJugador < Jugadores.idJugador
+Ref: Partidos.idEquipoLocal > Equipos.idEquipo
+Ref: Partidos.idEquipoVisitante > Equipos.idEquipo
+Ref: Partidos.idNoticia > Noticias.idNoticia
+Ref: Partidos.idTemporada > Temporadas.idTemporada
+//Partidos entre las demas tablas
+Ref: JugadoresParticipanPartidos.idJugador > Jugadores.idJugador
+Ref: JugadoresParticipanPartidos.idPartido > Partidos.idPartido 
+
+Ref: TecnicosDirigenPartidos.idTecnico > Tecnicos.idTecnico
+Ref: TecnicosDirigenPartidos.idPartido > Partidos.idPartido
+
+Ref: Calificaciones.idUsuario > Usuarios.idUsuario
+Ref: Calificaciones.idPartido > Partidos.idPartido
+
+Ref: EquiposParticipanPartidos.idEquipo > Equipos.idEquipo
+Ref: EquiposParticipanPartidos.idPartido > Partidos.idPartido
+
+//Temporadas y demas tablas
+Ref: TemporadasEnNFC.idTemporada > Temporadas.idTemporada
+Ref: TemporadasEnNFC.idDivision > Divisiones.idDivision
+
+Ref: TemporadasEnAFC.idTemporada > Temporadas.idTemporada
+Ref: TemporadasEnAFC.idDivision > Divisiones.idDivision
+
+Ref: puntosPorpartido.idPartido > Partidos.idPartido
+Ref: puntosPorpartido.idEquipo > Equipos.idEquipo
